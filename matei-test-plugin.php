@@ -19,14 +19,14 @@ function load_css()
 
 function test_plugin_callback()
 {
-    echo '<h1>Test plugin </h1 >';
+    include_once "input-picker.php";
 }
 
 
 function test_plugin_widget()
 {
     add_menu_page(
-        __('Custom Menu Title', 'textdomain'),
+        __('Title', 'textdomain'),
         'Test plugin',
         'manage_options',
         plugin_dir_url(__FILE__) . "matei-test-plugin.php",
@@ -36,8 +36,85 @@ function test_plugin_widget()
 }
 
 
+function edit_css()
+{
+    exit("aici");
+    if (isset($_REQUEST)) {
+        ?>
+        <style id="test-plugin" type="text/css" rel="stylesheet">
+            p {
+                line-height: <?php echo $_REQUEST['line_height'];?>px;
+                letter-spacing: <?php echo $_REQUEST['spacing'];  ?>px;
+                color: <?php echo $_REQUEST['color'];?>;
+            }
+        </style>
+        <?php
+    }
+}
+
+
+function input_picker()
+{
+    if (isset($_REQUEST)) {
+//        add_action("wp_head", 'edit_css');
+
+
+        add_action('wp_head', function () { ?>
+            <style id="test-plugin" type="text/css" rel="stylesheet">
+                p {
+                    line-height: <?php echo $_REQUEST['line_height'];?>px;
+                    letter-spacing: <?php echo $_REQUEST['spacing'];  ?>px;
+                    color: <?php echo $_REQUEST['color'];?>;
+                }
+            </style>
+            <?php
+            wp_head();
+            echo "wp";
+        });
+        add_action('admin_head',  function () { ?>
+            <style id="test-plugin" type="text/css" rel="stylesheet">
+                p {
+                    line-height: <?php echo $_REQUEST['line_height'];?>px;
+                    letter-spacing: <?php echo $_REQUEST['spacing'];  ?>px;
+                    color: <?php echo $_REQUEST['color'];?>;
+                }
+            </style>
+            <?php
+            wp_head();
+            echo "admin";
+        });
+
+
+
+        echo "Success";
+    }
+
+    die();
+}
+
+function ajax_enqueue()
+{
+    wp_enqueue_script('ajax-script', plugin_dir_url(__FILE__) . "js/ajax-script.js", array('jquery'));
+    wp_localize_script('ajax-script', 'my_ajax_object',
+        array('ajax_url' => admin_url('admin-ajax.php')));
+}
+
 if (!is_admin()) {
     add_action('wp_enqueue_scripts', 'load_css');
 } else {
     add_action('admin_menu', 'test_plugin_widget');
+    add_action('admin_enqueue_scripts', 'softlights_admin_scripts');
+    function softlights_admin_scripts()
+    {
+        wp_enqueue_script('jquery');
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('sl-script-handle', plugin_dir_url(__FILE__) . "js/myscript.js", array('wp-color-picker', 'jquery'), false, true);
+    }
+
+    add_action('admin_enqueue_scripts', 'ajax_enqueue');
+    add_action('wp_ajax_input_picker', 'input_picker');
+
 }
+
+
+
