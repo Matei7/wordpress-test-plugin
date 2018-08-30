@@ -100,7 +100,9 @@ class AdminController
             $result[$val[0]] = $val[1];
         }
         array_pop($result);
-        wp_json_encode($result);
+        echo json_encode($result);
+
+        wp_die();
     }
 
 
@@ -112,37 +114,38 @@ class AdminController
 
     public function render_metabox()
     {
-        global $post;
-        $value = get_post_meta($post->ID, 'css-letter_spacing', true);
         ?>
-        <label> Letter spacing:</label> <br>
-        <input type="number" name="letter-spacing" id="letter-spacing" value="<?php echo $value ?>" required>
+        <label>Line height: </label><br>
+        <input type="number" name="line-height" id="line-height" required>
         <br>
+        <label> Letter spacing:</label> <br>
+        <input type="number" name="letter-spacing" id="letter-spacing" required>
+        <br>
+        <label>Color picker:</label> <br>
+        <input type="text" name="color" class="color-picker" value="#bada55" id="color" required/>
         <?php
     }
 
     function wporg_save_postdata($post_id)
     {
-        if (array_key_exists('letter-spacing', $_POST)) {
+        if (!empty($_POST)) {
             update_post_meta(
                 $post_id,
                 'css-letter_spacing',
                 $_POST['letter-spacing']
             );
-/*
-            add_action("wp_head", array($this,function () use ($post_id) {
-                ?>
+            update_post_meta(
+                $post_id,
+                'css-line_height',
+                $_POST['line-height']
+            );
+            update_post_meta(
+                $post_id,
+                'css-color',
+                $_POST['color']
+            );
 
-                <style>#post-<?php echo $post_id?> p {
-                        letter-spacing: <?php echo $_POST['letter-spacing']?>px !important;
-                    }</style>
-                <?php
-            }));*/
 
-            $data = "#post-{$post_id} p{letter-spacing: {$_POST['letter-spacing']}px !important;}";
-            $fp = fopen(dirname(dirname(__FILE__)) . "\css\plugin-edit.css", "wb");
-            fwrite($fp, $data);
-            fclose($fp);
         }
     }
 

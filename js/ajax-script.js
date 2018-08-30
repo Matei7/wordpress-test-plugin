@@ -3,17 +3,17 @@ jQuery(document).ready(function ($) {
         function getCurrentValues() {
             $.ajax({
                 type: "post",
+                dataType: 'json',
                 url: my_ajax_object.ajax_url,
                 data: {
                     'action': 'getCurrentValues',
                 },
                 success: function (data) {
-                    console.log(data);
-                    var values = $.parseJSON(data);
                     $div = $("#current-values");
-                    for (var key in values) {
+                    $div.empty();
+                    for (var key in data) {
                         $p = $('<p>');
-                        $p.html(key + " has value " + values[key]);
+                        $p.html(key + " has value " + data[key]);
                         $div.append($p);
                     }
                 }
@@ -23,10 +23,9 @@ jQuery(document).ready(function ($) {
         getCurrentValues();
         $('#submit').click(function (e) {
             e.preventDefault();
-            console.log(my_ajax_object.ajax_url);
+
             $.ajax({
                 type: "post",
-
                 url: my_ajax_object.ajax_url,
                 data: {
                     'action': 'input_picker',
@@ -38,8 +37,7 @@ jQuery(document).ready(function ($) {
                 success: function (data) {
                     $("#line-height").val('');
                     $("#letter-spacing").val('');
-
-
+                    getCurrentValues();
                 },
                 error: function (errorThrown) {
                     console.log(errorThrown);
