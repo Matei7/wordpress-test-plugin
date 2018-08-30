@@ -1,7 +1,6 @@
 jQuery(document).ready(function ($) {
     $('#submit').click(function (e) {
         e.preventDefault();
-        console.log(my_ajax_object.ajax_url);
         $.ajax({
             type: "post",
             dataType: "json",
@@ -11,7 +10,6 @@ jQuery(document).ready(function ($) {
                 'line_height': $("#line-height").val(),
                 'spacing': $("#letter-spacing").val(),
                 'color': $("#color").val(),
-
             },
             success: function (data) {
                 $("#color").val("#bada55");

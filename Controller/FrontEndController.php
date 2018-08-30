@@ -14,7 +14,7 @@ class FrontEndController
      */
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', array('FrontEndController','load_css'));
+        add_action('wp_enqueue_scripts', array('FrontEndController', 'load_css'));
     }
 
     function load_css()
@@ -22,8 +22,6 @@ class FrontEndController
         wp_enqueue_style('wp-test-plugin', plugin_dir_url(__DIR__) . "css/matei-test-plugin.css");
         wp_enqueue_style('wp-input-picker-plugin', plugin_dir_url(__DIR__) . "css/matei-test-plugin2.css");
     }
-
-
 
 }
 
