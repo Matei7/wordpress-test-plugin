@@ -1,0 +1,43 @@
+label {
+    padding: 5px;
+    font-size: 24px;
+    font-weight: 500;
+    display: block;
+}
+
+input {
+    border-radius: 5px;
+    display: block;
+}
+
+input:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.admin-button {
+    border-radius: 5px;
+    transition-duration: 0.4s;
+}
+
+.admin-button:hover {
+    background-color: #008CBA;
+    color: white;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+textarea {
+    display: block;
+    width: auto;
+}
+
+.small-container {
+    width: 45%;
+    padding: 10px;
+    display: inline-block;
+    vertical-align: top;
+}

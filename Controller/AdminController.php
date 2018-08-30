@@ -16,8 +16,15 @@ class AdminController
 
         add_action('admin_menu', array($this, 'add_plugin_menu'));
         add_action('admin_enqueue_scripts', array($this, 'load_scripts'));
+        add_action('admin_enqueue_scripts', array($this, 'load_css'));
         add_action('wp_ajax_input_picker', array($this, 'input_picker'));
         add_action('wp_ajax_nopriv_input_picker', array($this, 'input_picker'));
+        add_action('wp_ajax_getCurrentValues', array($this, 'getCurrentValues'));
+        add_action('wp_ajax_nopriv_getCurrentValues', array($this, 'getCurrentValues'));
+
+        add_action('add_meta_boxes_post', array($this, 'wpplugin_add_custom_metabox'));
+        add_action('save_post', array($this, 'wporg_save_postdata'));
+
     }
 
 
@@ -33,6 +40,12 @@ class AdminController
     }
 
 
+    public function load_css()
+    {
+        wp_enqueue_style('wp-admin-test-plugin', plugin_dir_url(__DIR__) . "css/admin-test-plugin.css");
+    }
+
+
     function add_plugin_menu()
     {
         add_menu_page(
@@ -40,17 +53,10 @@ class AdminController
             'Test plugin',
             'manage_options',
             plugin_dir_url(__DIR__) . "matei-test-plugin.php",
-            array($this, 'plugin_callback'), "",
+            array($this, 'display_options'), "",
             100
         );
     }
-
-
-    function plugin_callback()
-    {
-        $this->display_options();
-    }
-
 
     public function input_picker()
     {
@@ -65,15 +71,81 @@ class AdminController
             $fp = fopen(dirname(dirname(__FILE__)) . "\css\matei-test-plugin2.css", "wb");
             fwrite($fp, $data);
             fclose($fp);
-            echo "Success";
+
         }
         die();
     }
 
-    private function display_options()
+    public function display_options()
     {
         include dirname(dirname(__FILE__)) . '\View\admin.html';
     }
+
+
+    public function getCurrentValues()
+    {
+
+        $fp = fopen(dirname(dirname(__FILE__)) . "\css\matei-test-plugin2.css", "r");
+        $data = fread($fp, filesize(dirname(dirname(__FILE__)) . "\css\matei-test-plugin2.css"));
+        fclose($fp);
+        $data = preg_replace("/[A-Za-z]*{/", "", $data);
+        $data = str_replace("}", "", $data);
+        $data = str_replace("!important", "", $data);
+        $arr = explode(';', $data);
+        $result = [];
+        foreach ($arr as $key) {
+            $val = explode(":", $key);
+            $val[0] = trim($val[0]);
+            $val[1] = trim($val[1]);
+            $result[$val[0]] = $val[1];
+        }
+        array_pop($result);
+        wp_json_encode($result);
+    }
+
+
+    public function wpplugin_add_custom_metabox()
+    {
+        add_meta_box("test-plugin-metabox", __("My First MetaBox"), array($this, "render_metabox"), "post", 'normal', 'default');
+    }
+
+
+    public function render_metabox()
+    {
+        global $post;
+        $value = get_post_meta($post->ID, 'css-letter_spacing', true);
+        ?>
+        <label> Letter spacing:</label> <br>
+        <input type="number" name="letter-spacing" id="letter-spacing" value="<?php echo $value ?>" required>
+        <br>
+        <?php
+    }
+
+    function wporg_save_postdata($post_id)
+    {
+        if (array_key_exists('letter-spacing', $_POST)) {
+            update_post_meta(
+                $post_id,
+                'css-letter_spacing',
+                $_POST['letter-spacing']
+            );
+/*
+            add_action("wp_head", array($this,function () use ($post_id) {
+                ?>
+
+                <style>#post-<?php echo $post_id?> p {
+                        letter-spacing: <?php echo $_POST['letter-spacing']?>px !important;
+                    }</style>
+                <?php
+            }));*/
+
+            $data = "#post-{$post_id} p{letter-spacing: {$_POST['letter-spacing']}px !important;}";
+            $fp = fopen(dirname(dirname(__FILE__)) . "\css\plugin-edit.css", "wb");
+            fwrite($fp, $data);
+            fclose($fp);
+        }
+    }
+
 }
 
 new AdminController();

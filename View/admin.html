@@ -5,18 +5,22 @@
     <title>Title</title>
 </head>
 <body>
- <h1>Test</h1>
+<h1>Test</h1>
+<div class="small-container" id="input-picker">
+<label>Line height: </label><br>
+<input type="number" name="line-height" id="line-height" required>
+<br>
+<label> Letter spacing:</label> <br>
+<input type="number" name="letter-spacing" id="letter-spacing" required>
+<br>
+<label>Color picker:</label> <br>
+<input type="text" name="color" class="color-picker" value="#bada55" id="color" required/>
+<br>
+<br>
+<button type="submit" name="submit" id="submit" class="admin-button">Save details</button>
 
- Line height: <br>
- <input  type="number" name="line-height" id="line-height" required>
- <br>
- Letter spacing: <br>
- <input  type="number" name="letter-spacing" id="letter-spacing" required>
- <br>
- Color picker: <br>
- <input type="text" name="color" class="color-picker" value="#bada55" id="color"  required/>
- <br>
- <br>
- <button type="submit" name="submit"  id="submit" >Save details</button>
+</div>
+
+<div class="small-container" id="current-values"></div>
 </body>
 </html>

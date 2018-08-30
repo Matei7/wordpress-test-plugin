@@ -21,6 +21,7 @@ class FrontEndController
     {
         wp_enqueue_style('wp-test-plugin', plugin_dir_url(__DIR__) . "css/matei-test-plugin.css");
         wp_enqueue_style('wp-input-picker-plugin', plugin_dir_url(__DIR__) . "css/matei-test-plugin2.css");
+        wp_enqueue_style('wp-edit-plugin', plugin_dir_url(__DIR__) . "css/plugin-edit.css");
     }
 
 }
