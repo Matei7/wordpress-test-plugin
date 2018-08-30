@@ -13,7 +13,7 @@ Domain Path: /languages
 
 function load_css()
 {
-    wp_enqueue_style('wp-test-plugin-css', plugin_dir_url(__FILE__) . "css/matei-test-plugin.css");
+    wp_enqueue_style('wp-test-plugin', plugin_dir_url(__FILE__) . "css/matei-test-plugin.css");
 }
 
 
@@ -35,57 +35,17 @@ function test_plugin_widget()
     );
 }
 
-
-function edit_css()
-{
-    exit("aici");
-    if (isset($_REQUEST)) {
-        ?>
-        <style id="test-plugin" type="text/css" rel="stylesheet">
-            p {
-                line-height: <?php echo $_REQUEST['line_height'];?>px;
-                letter-spacing: <?php echo $_REQUEST['spacing'];  ?>px;
-                color: <?php echo $_REQUEST['color'];?>;
-            }
-        </style>
-        <?php
-    }
-}
-
-
 function input_picker()
 {
     if (isset($_REQUEST)) {
-//        add_action("wp_head", 'edit_css');
-
-
-        add_action('wp_head', function () { ?>
-            <style id="test-plugin" type="text/css" rel="stylesheet">
-                p {
-                    line-height: <?php echo $_REQUEST['line_height'];?>px;
-                    letter-spacing: <?php echo $_REQUEST['spacing'];  ?>px;
-                    color: <?php echo $_REQUEST['color'];?>;
-                }
-            </style>
-            <?php
-            wp_head();
-            echo "wp";
-        });
-        add_action('admin_head',  function () { ?>
-            <style id="test-plugin" type="text/css" rel="stylesheet">
-                p {
-                    line-height: <?php echo $_REQUEST['line_height'];?>px;
-                    letter-spacing: <?php echo $_REQUEST['spacing'];  ?>px;
-                    color: <?php echo $_REQUEST['color'];?>;
-                }
-            </style>
-            <?php
-            wp_head();
-            echo "admin";
-        });
-
-
-
+        $data = "\np{
+            line-height: {$_REQUEST['line_height']}px !important;
+            letter-spacing: {$_REQUEST['spacing']}px !important;
+            color: {$_REQUEST['color']} !important;       
+        }\n";
+        $fp = fopen(__DIR__ . "/css/matei-test-plugin.css", "a+");
+        fwrite($fp, $data);
+        fclose($fp);
         echo "Success";
     }
 
@@ -101,6 +61,7 @@ function ajax_enqueue()
 
 if (!is_admin()) {
     add_action('wp_enqueue_scripts', 'load_css');
+
 } else {
     add_action('admin_menu', 'test_plugin_widget');
     add_action('admin_enqueue_scripts', 'softlights_admin_scripts');
@@ -113,6 +74,7 @@ if (!is_admin()) {
 
     add_action('admin_enqueue_scripts', 'ajax_enqueue');
     add_action('wp_ajax_input_picker', 'input_picker');
+    add_action('wp_ajax_nopriv_input_picker', 'input_picker');
 
 }
 

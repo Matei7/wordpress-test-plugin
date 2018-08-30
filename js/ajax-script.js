@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
-    $('#submit').click(function () {
-        $('#submit').click(function () {
+        $('#submit').click(function (e) {
+            e.preventDefault();
+            console.log('A');
             $.ajax({
                 type: "post",
                 dataType: "json",
@@ -21,7 +22,7 @@ jQuery(document).ready(function ($) {
                 error: function (errorThrown) {
                     console.log(errorThrown);
                 }
-            })
+            });
+            return false;
         })
-    })
 });
