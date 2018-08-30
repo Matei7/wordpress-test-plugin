@@ -14,7 +14,6 @@ jQuery(document).ready(function ($) {
 
                 },
                 success: function (data) {
-                    console.log(data);
                     $("#color").val("#bada55");
                     $("#line-height").val('');
                     $("#letter-spacing").val('');
