@@ -28,22 +28,26 @@ class FrontEndController
     public function output_style_node()
     {
         $id = get_the_ID();
-        $color = get_post_meta($id, 'css-color', true);
-        $height = get_post_meta($id, 'css-line_height', true);
-        $spacing = get_post_meta($id, 'css-letter_spacing', true);
-?>
+        global $wpdb;
+        $querystr = "SELECT * FROM  $wpdb->postmeta WHERE  $wpdb->postmeta.post_id = '$id' AND $wpdb->postmeta.meta_key like 'css%'";
+        $pageposts = $wpdb->get_results($querystr);
 
-        <style>
-            #post-<?php echo $id?> p {
-                letter-spacing: <?php echo $spacing?>px!important;
-                line-height:<?php echo $height?>px !important;
-                color:<?php echo $color?> !important;
+        $style = '';
+        for ($i = 0; $i < count($pageposts); $i++) {
+            $key = str_replace("css-", "", $pageposts[$i]->meta_key);
+            $value = $pageposts[$i]->meta_value;
+            if ($key != "color") {
+                $style .= "$key: $value px !important;\n";
+            } else {
+                $style .= "$key: $value !important;\n";
             }
+        }
 
-        </style>
+        ?>
+        <style><?php echo "#post-" . $id . " p{" . $style . "}" ?></style>
+        <?php
 
 
-<?php
     }
 
 }

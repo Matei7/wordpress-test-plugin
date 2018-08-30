@@ -131,12 +131,12 @@ class AdminController
         if (!empty($_POST)) {
             update_post_meta(
                 $post_id,
-                'css-letter_spacing',
+                'css-letter-spacing',
                 $_POST['letter-spacing']
             );
             update_post_meta(
                 $post_id,
-                'css-line_height',
+                'css-line-height',
                 $_POST['line-height']
             );
             update_post_meta(
