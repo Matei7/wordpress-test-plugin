@@ -11,9 +11,6 @@ Domain Path: /languages
 */
 
 
-
-include_once "Controller/FrontEndController.php";
-
 class TestPlugin
 {
 
