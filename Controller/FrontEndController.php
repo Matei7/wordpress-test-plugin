@@ -29,11 +29,8 @@ class FrontEndController
     {
 
         global $wp_query;
-
         $post_list = $wp_query->posts;
-
         $size = count($post_list);
-
         for ($i = 0; $i < $size; $i++) {
             $id = $post_list[$i]->ID;
             $tags = get_post_meta($id, 'css-post-' . $id)[0];
