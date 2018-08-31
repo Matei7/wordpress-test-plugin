@@ -119,17 +119,16 @@ class AdminController
     function wporg_save_postdata($post_id)
     {
         if (!empty($_POST)) {
-
             update_post_meta(
                 $post_id,
-                'css-post-'.$post_id,
-                array(
-                    'letter-spacing' => $_POST['letter-spacing'],
-                    'line-height' => $_POST['line-height'],
-                    'color' => $_POST['color'],
+                'css-post-' . $post_id, array(
+                    "p" => array(
+                        'letter-spacing' => $_POST['letter-spacing'],
+                        'line-height' => $_POST['line-height'],
+                        'color' => $_POST['color'],
+                    ),
                 )
             );
-
 
 
         }

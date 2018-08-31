@@ -36,19 +36,21 @@ class FrontEndController
 
         for ($i = 0; $i < $size; $i++) {
             $id = $post_list[$i]->ID;
-            $data = get_post_meta($id, 'css-post-' . $id)[0];
-            if (is_array($data)) {
-                $style = '';
-                foreach ($data as $key => $value) {
-                    if ($key != "color") {
-                        $style .= "$key: $value" . "px !important;\n";
-                    } else {
-                        $style .= "$key: $value !important;\n";
+            $tags = get_post_meta($id, 'css-post-' . $id)[0];
+            foreach ($tags as $tag => $data) {
+                if (is_array($data)) {
+                    $style = '';
+                    foreach ($data as $key => $value) {
+                        if ($key != "color" && $key != 'background-color') {
+                            $style .= "$key: $value" . "px !important;\n";
+                        } else {
+                            $style .= "$key: $value !important;\n";
+                        }
                     }
+                    ?>
+                    <style><?php echo "#post-" . $id . " $tag{" . $style . "}" ?></style>
+                    <?php
                 }
-                ?>
-                <style><?php echo "#post-" . $id . " p{" . $style . "}" ?></style>
-                <?php
             }
         }
 
