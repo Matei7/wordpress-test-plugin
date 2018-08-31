@@ -43,8 +43,9 @@ class AdminController
 
     public function load_css()
     {
-        wp_enqueue_style('wp-admin-test-plugin', plugin_dir_url(__DIR__) . "css/admin-test-plugin.css");
         wp_enqueue_style('wp-jquery', plugin_dir_url(__DIR__) . "css/jquery-ui.css");
+        wp_enqueue_style('wp-admin-test-plugin', plugin_dir_url(__DIR__) . "css/admin-test-plugin.css");
+
     }
 
 
