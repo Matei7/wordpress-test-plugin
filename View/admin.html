@@ -7,16 +7,28 @@
 <body>
 <h1>Test</h1>
 <div class="small-container" id="input-picker">
-<label class="test-label">Line height: </label><br>
-<input type="number" name="line-height" id="line-height" class="test-input" required>
-<br>
-<label class="test-label"> Letter spacing:</label> <br>
-<input type="number" name="letter-spacing" id="letter-spacing" class="test-input" required>
-<br>
-<label  class="test-label">Color picker:</label> <br>
-<input type="text" name="color" class="color-picker" value="#bada55" id="color" required/>
-<br>
-<br>
+    <div class="plugin-input">
+        <label class="test-label">Line height: </label><br>
+        <input type="number" name="line-height" id="line-height" class="test-input" required min="0" max="100">
+
+        <span class="slider-value" id="min-height"></span>
+        <div id="line-slider"></div>
+        <span class="slider-value" id="max-height"></span>
+    </div>
+
+    <div class="plugin-input">
+        <label class="test-label"> Letter spacing:</label> <br>
+        <input type="number" name="letter-spacing" id="letter-spacing" class="test-input" required min="0" max="100">
+
+        <span class="slider-value" id="min-spacing"></span>
+        <div id="spacing-slider"></div>
+        <span class="slider-value" id="max-spacing"></span>
+    </div>
+
+    <div class="plugin-input">
+        <label class="test-label">Color picker:</label> <br>
+        <input type="text" name="color" class="color-picker" value="#bada55" id="color" required/>
+    </div>
 <button type="submit" name="submit" id="submit" class="admin-button">Save details</button>
 
 </div>

@@ -31,6 +31,7 @@ class AdminController
     public function load_scripts()
     {
         wp_enqueue_script('jquery');
+        wp_enqueue_script('jquery-ui');
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('sl-script-handle', plugin_dir_url(__DIR__) . "js/myscript.js", array('wp-color-picker', 'jquery'), false, true);
         wp_enqueue_script('ajax-script', plugin_dir_url(__DIR__) . "js/ajax-script.js", array('jquery'), false, true);
@@ -43,6 +44,7 @@ class AdminController
     public function load_css()
     {
         wp_enqueue_style('wp-admin-test-plugin', plugin_dir_url(__DIR__) . "css/admin-test-plugin.css");
+        wp_enqueue_style('wp-jquery', plugin_dir_url(__DIR__) . "css/jquery-ui.css");
     }
 
 

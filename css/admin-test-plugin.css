@@ -7,11 +7,18 @@
 
 .test-input {
     border-radius: 5px;
-    display: block;
 }
 
 .test-input:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+.slider-value{
+    padding: 15px;
+    font-weight: bold;
+}
+.slider {
+    vertical-align: middle;
+    width: 125px;
 }
 
 .admin-button {
@@ -35,4 +42,24 @@ h1 {
     padding: 10px;
     display: inline-block;
     vertical-align: top;
+}
+
+#spacing-slider{
+    display: inline-block;
+}
+#line-slider{
+    display: inline-block;
+}
+
+#slider {
+    margin: 10px;
+}
+.ui-slider-horizontal {
+    height: 8px;
+    width: 200px;
+}
+.ui-slider .ui-slider-handle {
+    height: 0;
+    width: 5px;
+    padding-left: 5px;
 }
