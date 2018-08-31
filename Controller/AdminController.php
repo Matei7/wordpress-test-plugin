@@ -100,9 +100,8 @@ class AdminController
             $result[$val[0]] = $val[1];
         }
         array_pop($result);
-        echo json_encode($result);
 
-        wp_die();
+        wp_send_json($result);
     }
 
 
@@ -114,36 +113,23 @@ class AdminController
 
     public function render_metabox()
     {
-        ?>
-        <label>Line height: </label><br>
-        <input type="number" name="line-height" id="line-height" required>
-        <br>
-        <label> Letter spacing:</label> <br>
-        <input type="number" name="letter-spacing" id="letter-spacing" required>
-        <br>
-        <label>Color picker:</label> <br>
-        <input type="text" name="color" class="color-picker" value="#bada55" id="color" required/>
-        <?php
+        include dirname(dirname(__FILE__)) . '\View\render_metabox.html';
     }
 
     function wporg_save_postdata($post_id)
     {
         if (!empty($_POST)) {
+
             update_post_meta(
                 $post_id,
-                'css-letter-spacing',
-                $_POST['letter-spacing']
+                'css-post-'.$post_id,
+                array(
+                    'letter-spacing' => $_POST['letter-spacing'],
+                    'line-height' => $_POST['line-height'],
+                    'color' => $_POST['color'],
+                )
             );
-            update_post_meta(
-                $post_id,
-                'css-line-height',
-                $_POST['line-height']
-            );
-            update_post_meta(
-                $post_id,
-                'css-color',
-                $_POST['color']
-            );
+
 
 
         }

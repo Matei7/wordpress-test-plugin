@@ -1,16 +1,16 @@
-label {
+.test-label {
     padding: 5px;
     font-size: 24px;
     font-weight: 500;
     display: block;
 }
 
-input {
+.test-input {
     border-radius: 5px;
     display: block;
 }
 
-input:hover {
+.test-input:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 
@@ -28,11 +28,6 @@ input:hover {
 h1 {
     font-size: 48px;
     font-weight: bold;
-}
-
-textarea {
-    display: block;
-    width: auto;
 }
 
 .small-container {
